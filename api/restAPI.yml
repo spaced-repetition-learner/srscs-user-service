@@ -1,0 +1,152 @@
+openapi: 3.0.0
+info:
+  title: User-Service API
+  version: '0.1'
+paths:
+  "/users":
+    post:
+      summary: Creates a new user.
+      tags:
+        - users
+      description: Creates a new user with an unique username and mailaddress.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user-request"
+      responses:
+        201:
+          description: User has been successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        403:
+          description: |
+            Possible causes are
+              - Username or mailaddress already in use
+
+    get:
+      summary: Retrieves a user by filter.
+      tags:
+        - users
+      description: |
+        Retrieves a user by its userid, username or mailaddress. Only one setting may be specified.
+      parameters:
+        - in: query
+          name: filter
+          required: true
+          description: A mutually exclusive filter. Accepts a single filter setting.
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              userId:
+                $ref: "#/components/schemas/uuid"
+              username:
+                $ref: "#/components/schemas/username"
+              mailaddress:
+                $ref: "#/components/schemas/mail"
+            additionalProperties: false
+            oneOf:
+              - required: [ userId ]
+              - required: [ username ]
+              - required: [ mailaddress ]
+      responses:
+        200:
+          description: Retrieves the queried user.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        404:
+          description: No user found.
+
+  "/users/{userId}":
+    delete:
+      summary: Deletes the user.
+      tags:
+        - users
+      description: Soft deletes the user. No data will be removed.
+      parameters:
+        - $ref: "#/components/parameters/userId"
+      responses:
+        200:
+          description: User successfully deleted.
+        404:
+          description: User not found.
+
+
+
+components:
+  schemas:
+    uuid:
+      type: string
+      format: uuid
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
+
+    mail:
+      type: string
+      description: Mailaddresses must be unique.
+      format: email
+      example: "dadepu@gmail.com"
+
+    username:
+      type: string
+      description: Usernames must be unique.
+      example: "dadepu"
+      pattern: '^([A-Za-z0-9]){4,16}$'
+
+    name:
+      type: string
+      example: "Daniel"
+      pattern: '^([A-Za-z0-9 ]){3,12}$'
+
+    password:
+      type: string
+      format: password
+      example: "abc123"
+
+    user-request:
+      type: object
+      required:
+        - username
+        - mailaddress
+        - password
+        - firstname
+        - lastname
+      properties:
+        username:
+          $ref: "#/components/schemas/username"
+        mailaddress:
+          $ref: "#/components/schemas/mail"
+        password:
+          $ref: "#/components/schemas/password"
+        firstname:
+          $ref: "#/components/schemas/name"
+        lastname:
+          $ref: "#/components/schemas/name"
+
+    user:
+      type: object
+      properties:
+        userId:
+          $ref: "#/components/schemas/uuid"
+        userName:
+          $ref: "#/components/schemas/username"
+        userMail:
+          $ref: "#/components/schemas/mail"
+        firstname:
+          $ref: "#/components/schemas/name"
+        lastname:
+          $ref: "#/components/schemas/name"
+
+  parameters:
+    userId:
+      in: path
+      name: userId
+      schema:
+        $ref: "#/components/schemas/uuid"
+      required: true
