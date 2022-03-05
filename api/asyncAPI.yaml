@@ -1,0 +1,88 @@
+asyncapi: 2.1.0
+info:
+  title: User-Service
+  version: '0.1'
+  description: This service in charge of handling users.
+
+
+
+channels:
+  cdc.users.0:
+    subscribe:
+      message:
+        oneOf:
+          - $ref: "#/components/messages/user-created"
+          - $ref: "#/components/messages/user-disabled"
+
+components:
+  messageTraits:
+    defaultHeader:
+      headers:
+        type: object
+        required:
+          - eventId
+          - transactionId
+          - version
+          - timestamp
+          - type
+        properties:
+          eventId:
+            $ref: "#/components/schemas/uuid"
+          transactionId:
+            $ref: "#/components/schemas/uuid"
+          timestamp:
+            type: string
+            format: date-time
+            description: >
+              timestamp as specified in [time-format-decision](https://the-microservice-dungeon.github.io/decisionlog/decisions/time-format.html)
+            example: 2020-01-10T12:00:00Z
+          type:
+            type: string
+            description: Event-Message-Type
+            example: message-name
+
+  messages:
+    user-created:
+      description: User has been newly created.
+      traits:
+        - $ref: "#/components/messageTraits/defaultHeader"
+      payload:
+        type: object
+        properties:
+          userId:
+            $ref: "#/components/schemas/uuid"
+          username:
+            $ref: "#/components/schemas/username"
+          mailaddress:
+            $ref: "#/components/schemas/mail"
+
+    user-disabled:
+      description: User has been disabled.
+      traits:
+        - $ref: "#/components/messageTraits/defaultHeader"
+      payload:
+        type: object
+        properties:
+          userId:
+            $ref: "#/components/schemas/uuid"
+
+  schemas:
+    uuid:
+      type: string
+      format: uuid
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
+
+    mail:
+      type: string
+      description: Mailaddresses must be unique.
+      format: email
+      example: "dadepu@gmail.com"
+
+    username:
+      type: string
+      description: Usernames must be unique.
+      example: "dadepu"
+
+    name:
+      type: string
+      example: "Daniel"
