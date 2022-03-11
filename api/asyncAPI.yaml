@@ -1,13 +1,13 @@
 asyncapi: 2.0.0
 info:
   title: User-Service
-  version: '0.1'
+  version: '1.0'
   description: This service in charge of handling users.
-
-
 
 channels:
   cdc.users.0:
+    description: |
+      Handles all user-account related events for which the order is critical. Partitioned by user-id.
     subscribe:
       message:
         oneOf:
@@ -43,7 +43,7 @@ components:
 
   messages:
     user-created:
-      description: User has been newly created.
+      description: New user has been created.
       traits:
         - $ref: "#/components/messageTraits/defaultHeader"
       payload:
@@ -53,11 +53,9 @@ components:
             $ref: "#/components/schemas/uuid"
           username:
             $ref: "#/components/schemas/username"
-          mailaddress:
-            $ref: "#/components/schemas/mail"
 
     user-disabled:
-      description: User has been disabled.
+      description: User has been disabled (soft-delete).
       traits:
         - $ref: "#/components/messageTraits/defaultHeader"
       payload:
