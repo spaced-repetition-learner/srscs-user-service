@@ -6,6 +6,8 @@ import de.danielkoellgen.srscsuserservice.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -20,5 +22,12 @@ public class UserService {
         User newUser = new User(user.username, user.mailAddress, user.firstName, user.lastName);
         userRepository.save(newUser);
         return new UserDto(newUser);
+    }
+
+    public UserDto disableUser(UUID userId) throws Exception {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.disableUser();
+        userRepository.save(user);
+        return new UserDto(user);
     }
 }

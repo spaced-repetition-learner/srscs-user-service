@@ -19,11 +19,14 @@ public class UserDto {
 
     public Name lastName;
 
+    public Boolean isActive;
+
     public UserDto(User user) {
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.mailAddress = user.getMailAddress();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
+        this.isActive = user.getIsActive();
     }
 }
