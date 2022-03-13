@@ -22,7 +22,7 @@ public class MailAddress extends AbstractStringValidation {
     }
 
     private void validateMailAddressOrThrow(@NotNull String mailAddress) throws Exception {
-        validateOrThrowRegex(mailAddress, pattern, this::mapToException);
+        validateRegexOrThrow(mailAddress, pattern, this::mapToException);
     }
 
     private Exception mapToException(String message) {

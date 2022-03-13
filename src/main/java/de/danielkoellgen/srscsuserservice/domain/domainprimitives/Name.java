@@ -14,14 +14,14 @@ public class Name extends AbstractStringValidation {
     public String name;
 
     public Name(@NotNull String name) throws Exception {
-        validateOrThrowName(name);
+        validateNameOrThrow(name);
         this.name = name;
     }
 
-    private void validateOrThrowName(@NotNull String name) throws Exception {
-        validateOrThrowMinLength(name, 3, this::mapToException);
-        validateOrThrowMaxLength(name, 12, this::mapToException);
-        validateOrThrowRegex(name, "^([A-Za-z0-9 ]){3,12}$", this::mapToException);
+    private void validateNameOrThrow(@NotNull String name) throws Exception {
+        validateMinLengthOrThrow(name, 3, this::mapToException);
+        validateMaxLengthOrThrow(name, 12, this::mapToException);
+        validateRegexOrThrow(name, "^([A-Za-z0-9 ]){3,12}$", this::mapToException);
     }
 
     private Exception mapToException(String message) {
