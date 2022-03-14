@@ -3,6 +3,7 @@ package de.danielkoellgen.srscsuserservice.domain.domainprimitives;
 import de.danielkoellgen.srscsuserservice.domain.core.AbstractStringValidation;
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +12,8 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 public class Username extends AbstractStringValidation {
 
-    public String username;
+    @Getter
+    private String username;
 
     public Username(@NotNull String username) throws Exception {
         validateUsernameOrThrow(username);

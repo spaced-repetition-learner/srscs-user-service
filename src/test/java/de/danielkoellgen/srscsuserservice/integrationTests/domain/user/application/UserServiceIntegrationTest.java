@@ -65,7 +65,7 @@ public class UserServiceIntegrationTest {
         UserDto responseDto = userService.makeUser(testUser1);
 
         // when
-        User fetchedUser = userRepository.findUserByUsername_Username(testUser1.username.username).orElseThrow();
+        User fetchedUser = userRepository.findUserByUsername_Username(testUser1.username.getUsername()).orElseThrow();
 
         // then
         assertThat(fetchedUser.getUserId())
@@ -78,7 +78,7 @@ public class UserServiceIntegrationTest {
         UserDto responseDto = userService.makeUser(testUser1);
 
         // when
-        User fetchedUser = userRepository.findUserByMailAddress_MailAddress(testUser1.mailAddress.mailAddress)
+        User fetchedUser = userRepository.findUserByMailAddress_MailAddress(testUser1.mailAddress.getMailAddress())
                 .orElseThrow();
 
         // then
