@@ -26,7 +26,7 @@ public class UserService {
         User newUser = new User(user.username, user.mailAddress, user.firstName, user.lastName);
         userRepository.save(newUser);
         logger.info("New user '{}' created. [userId={}]", newUser.getUsername().getUsername(), newUser.getUserId());
-        logger.trace("New user created: {}", newUser);
+        logger.trace("New user created: [{}]", newUser);
         return new UserDto(newUser);
     }
 
