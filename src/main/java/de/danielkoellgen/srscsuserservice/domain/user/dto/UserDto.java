@@ -4,9 +4,11 @@ import de.danielkoellgen.srscsuserservice.domain.domainprimitives.MailAddress;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Name;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Username;
 import de.danielkoellgen.srscsuserservice.domain.user.domain.User;
+import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class UserDto {
 
     public UUID userId;
