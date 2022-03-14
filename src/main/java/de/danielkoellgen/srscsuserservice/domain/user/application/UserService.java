@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -30,7 +31,7 @@ public class UserService {
         return new UserDto(newUser);
     }
 
-    public UserDto disableUser(UUID userId) throws Exception {
+    public UserDto disableUser(UUID userId) throws NoSuchElementException {
         User user = userRepository.findById(userId).orElseThrow();
         user.disableUser();
         userRepository.save(user);
