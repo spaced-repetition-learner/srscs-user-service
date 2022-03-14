@@ -5,6 +5,7 @@ import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Name;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Username;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,17 +15,18 @@ import java.util.UUID;
 @Table(
         name = "users",
         indexes = {
-                @Index(name = "user-by-username", columnList = "username", unique = true),
-                @Index(name = "user-by-mailAddress", columnList = "mail-address", unique = true)
+                @Index(name = "user_by_username", columnList = "username", unique = true),
+                @Index(name = "user_by_mailAddress", columnList = "mail_address", unique = true)
         }
 )
+@NoArgsConstructor
 public class User {
 
     @Id
     @Getter
-    @Column(name = "user-id", nullable = false)
+    @Column(name = "user_id")
     @Type(type = "uuid-char")
-    private final UUID userId = UUID.randomUUID();
+    private UUID userId = UUID.randomUUID();
 
     @Getter
     @Embedded
@@ -35,23 +37,23 @@ public class User {
     @Getter
     @Embedded
     @AttributeOverride(name = "mailAddress", column = @Column (
-            name = "mail-address", nullable = false, unique = true, length = 50))
+            name = "mail_address", nullable = false, unique = true, length = 50))
     private MailAddress mailAddress;
 
     @Getter
     @Embedded
     @AttributeOverride(name = "name", column = @Column(
-            name = "first-name", nullable = false, length = 20))
+            name = "first_name", nullable = false, length = 20))
     private Name firstName;
 
     @Getter
     @Embedded
     @AttributeOverride(name = "name", column = @Column(
-            name = "last-name", nullable = false, length = 20))
+            name = "last_name", nullable = false, length = 20))
     private Name lastName;
 
     @Getter
-    @Column(name = "is-active", nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
 
