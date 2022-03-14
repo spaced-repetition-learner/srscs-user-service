@@ -27,4 +27,11 @@ public class Username extends AbstractStringValidation {
     private Exception mapUserException(String message) {
         return new UsernameException(message);
     }
+
+    @Override
+    public String toString() {
+        return "Username{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

@@ -27,4 +27,11 @@ public class Name extends AbstractStringValidation {
     private Exception mapToException(String message) {
         return new NameException(message);
     }
+
+    @Override
+    public String toString() {
+        return "Name{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

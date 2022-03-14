@@ -69,4 +69,16 @@ public class User {
         isActive = false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username=" + username +
+                ", mailAddress=" + mailAddress +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

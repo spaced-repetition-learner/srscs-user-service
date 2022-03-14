@@ -28,4 +28,11 @@ public class MailAddress extends AbstractStringValidation {
     private Exception mapToException(String message) {
         return new MailAddressException(message);
     }
+
+    @Override
+    public String toString() {
+        return "MailAddress{" +
+                "mailAddress='" + mailAddress + '\'' +
+                '}';
+    }
 }
