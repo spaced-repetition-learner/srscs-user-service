@@ -1,20 +1,20 @@
 openapi: 3.0.0
 info:
   title: User-Service API
-  version: 'v1.0'
+  version: 'v1.1'
 paths:
   "/users":
     post:
       summary: Creates a new user.
       tags:
-        - users
+        - /users
       description: Creates a new user with an unique username and mailaddress.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/userRequestBody"
+              $ref: "#/components/schemas/newUser"
       responses:
         201:
           description: New user created.
@@ -30,7 +30,7 @@ paths:
     get:
       summary: Retrieves a user by filter.
       tags:
-        - users
+        - /users
       description: |
         Mutually exclusive filtering for username, mailaddress and user-id.
       parameters:
@@ -43,17 +43,17 @@ paths:
           schema:
             type: object
             properties:
-              userId:
+              user-id:
                 $ref: "#/components/schemas/uuid"
               username:
                 $ref: "#/components/schemas/username"
-              mailaddress:
+              mail-address:
                 $ref: "#/components/schemas/mail"
             additionalProperties: false
             oneOf:
               - required: [ userId ]
               - required: [ username ]
-              - required: [ mailaddress ]
+              - required: [ mail-address ]
       responses:
         200:
           description: Retrieves the queried user.
@@ -64,11 +64,11 @@ paths:
         404:
           description: User not found.
 
-  "/users/{userId}":
+  "/users/{user-id}":
     delete:
       summary: Disables the user.
       tags:
-        - users
+        - /users
       description: Soft deletes the user. No data will be removed.
       parameters:
         - $ref: "#/components/parameters/userId"
@@ -77,6 +77,35 @@ paths:
           description: User successfully deleted.
         404:
           description: User not found.
+
+  "/logs":
+    get:
+      summary: Exposes log-files for dev. purposes.
+      tags:
+        - /logs
+      parameters:
+        - in: path
+          name: file
+          required: true
+          examples:
+            info:
+              value: 'info'
+            error:
+              value: 'error'
+            dinfo:
+              value: 'dinfo'
+            dtrace:
+              value: 'dtrace'
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns the queried logfile.
+          content:
+            text/plain:
+              schema:
+                type: string
+
 
 
 
@@ -109,45 +138,45 @@ components:
       format: password
       example: "abc123"
 
-    userRequestBody:
+    newUser:
       type: object
       required:
         - username
-        - mailaddress
+        - mailAddress
         - password
-        - firstname
-        - lastname
+        - firstName
+        - lastName
       properties:
         username:
           $ref: "#/components/schemas/username"
-        mailaddress:
+        mailAddress:
           $ref: "#/components/schemas/mail"
         password:
           $ref: "#/components/schemas/password"
-        firstname:
+        firstName:
           $ref: "#/components/schemas/name"
-        lastname:
+        lastName:
           $ref: "#/components/schemas/name"
 
     user:
       type: object
       required:
         - userId
-        - userName
-        - userMail
-        - firstname
-        - lastname
+        - username
+        - mailAddress
+        - firstName
+        - lastName
         - isActive
       properties:
         userId:
           $ref: "#/components/schemas/uuid"
-        userName:
+        username:
           $ref: "#/components/schemas/username"
-        userMail:
+        mailAddress:
           $ref: "#/components/schemas/mail"
-        firstname:
+        firstName:
           $ref: "#/components/schemas/name"
-        lastname:
+        lastName:
           $ref: "#/components/schemas/name"
         isActive:
           type: boolean
@@ -155,7 +184,7 @@ components:
   parameters:
     userId:
       in: path
-      name: userId
+      name: user-id
       schema:
         $ref: "#/components/schemas/uuid"
       required: true
