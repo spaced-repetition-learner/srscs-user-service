@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:29092", "port=29092"})
 public class UserServiceIntegrationTest {
 
     private final UserService userService;
@@ -35,7 +37,7 @@ public class UserServiceIntegrationTest {
     }
 
     @AfterEach
-    public void tearDown() {
+    public void cleanUp() {
         this.userRepository.deleteAll();
     }
 
