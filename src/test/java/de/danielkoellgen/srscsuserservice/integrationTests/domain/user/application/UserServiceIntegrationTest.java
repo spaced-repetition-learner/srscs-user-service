@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -43,7 +45,7 @@ public class UserServiceIntegrationTest {
         UserDto dto = testUser1;
 
         // when
-        UserDto responseDto = userService.makeUser(dto);
+        UserDto responseDto = userService.createNewUser(UUID.randomUUID(), dto);
 
         // then
         User fetchedUser = userRepository.findById(responseDto.userId).orElseThrow();
@@ -62,7 +64,7 @@ public class UserServiceIntegrationTest {
     @Test
     public void shouldFindUserViaUsername() throws Exception {
         // given
-        UserDto responseDto = userService.makeUser(testUser1);
+        UserDto responseDto = userService.createNewUser(UUID.randomUUID(), testUser1);
 
         // when
         User fetchedUser = userRepository.findUserByUsername_Username(testUser1.username.getUsername()).orElseThrow();
@@ -75,7 +77,7 @@ public class UserServiceIntegrationTest {
     @Test
     public void shouldFindUserViaMailAddress() throws Exception {
         // given
-        UserDto responseDto = userService.makeUser(testUser1);
+        UserDto responseDto = userService.createNewUser(UUID.randomUUID(), testUser1);
 
         // when
         User fetchedUser = userRepository.findUserByMailAddress_MailAddress(testUser1.mailAddress.getMailAddress())
@@ -89,10 +91,10 @@ public class UserServiceIntegrationTest {
     @Test
     public void shouldAllowToDisableUsers() throws Exception {
         // given
-        UserDto responseDto = userService.makeUser(testUser1);
+        UserDto responseDto = userService.createNewUser(UUID.randomUUID(), testUser1);
 
         // when
-        UserDto disabledDto = userService.disableUser(responseDto.userId);
+        UserDto disabledDto = userService.disableUser(UUID.randomUUID(), responseDto.userId);
 
         // then
         assertThat(disabledDto.isActive)
@@ -107,28 +109,28 @@ public class UserServiceIntegrationTest {
     @Test
     public void shouldPreventDuplicatedUsernames() throws Exception {
         // given
-        userService.makeUser(testUser1);
+        userService.createNewUser(UUID.randomUUID(), testUser1);
 
         UserDto testUser2 = new UserDto(null, new Username("dadepu"),
                 new MailAddress("anyotheraddress@gmail.com"), new Name("Daniel2"), new Name("Koellgen2"), null);
 
         // when then
         assertThrows(Exception.class, () -> {
-            userService.makeUser(testUser2);
+            userService.createNewUser(UUID.randomUUID(), testUser2);
         });
     }
 
     @Test
     public void shouldPreventDuplicatedMailAddresses() throws Exception {
         // given
-        userService.makeUser(testUser1);
+        userService.createNewUser(UUID.randomUUID(), testUser1);
 
         UserDto testUser2 = new UserDto(null, new Username("anyOtherName"),
                 new MailAddress("danielkoellgen@gmail.com"), new Name("Daniel2"), new Name("Koellgen2"), null);
 
         // when then
         assertThrows(Exception.class, () -> {
-            userService.makeUser(testUser2);
+            userService.createNewUser(UUID.randomUUID(), testUser2);
         });
     }
 }

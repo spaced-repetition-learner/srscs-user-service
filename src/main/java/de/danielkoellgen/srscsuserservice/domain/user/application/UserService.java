@@ -39,11 +39,12 @@ public class UserService {
         return new UserDto(newUser);
     }
 
-    public void disableUser(@NotNull UUID transactionId, @NotNull UUID userId) {
+    public @NotNull UserDto disableUser(@NotNull UUID transactionId, @NotNull UUID userId) {
         User user = userRepository.findById(userId).orElseThrow();
         user.disableUser();
         userRepository.save(user);
         logger.info("User '{}' disabled. [userId={}]", user.getUsername().getUsername(), user.getUserId());
         kafkaProducer.send(new UserDisabled(transactionId, new UserDisabledDto(userId)));
+        return new UserDto(user);
     }
 }
