@@ -34,6 +34,7 @@ public class UserController {
 
     @PostMapping(value = "/users", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<UserResponseDto> makeNewUser(@RequestBody NewUserRequestDto userRestRequestDto) {
+        UUID transactionId = UUID.randomUUID();
         UserDto userRequestDto;
         try {
             userRequestDto = userRestRequestDto.mapToUserDto();
@@ -41,7 +42,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RequestBody arguments invalid", e);
         }
         try {
-            UserDto userResponseDto = userService.makeUser(userRequestDto);
+            UserDto userResponseDto = userService.createNewUser(transactionId, userRequestDto);
             UserResponseDto userRestResponseDto = new UserResponseDto(userResponseDto);
             return new ResponseEntity<>(userRestResponseDto, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -54,6 +55,7 @@ public class UserController {
             @RequestParam(name = "user-id") Optional<UUID> userId,
             @RequestParam(name = "username") Optional<String> username,
             @RequestParam(name = "mail-address") Optional<String> mailAddress) {
+        UUID transactionId = UUID.randomUUID();
         User fetchedUser = null;
         try {
             if (userId.isPresent()) {
@@ -77,8 +79,9 @@ public class UserController {
 
     @DeleteMapping(value = "/users/{user-id}")
     public ResponseEntity<HttpStatus> disableUser(@PathVariable(name = "user-id") UUID userId) {
+        UUID transactionId = UUID.randomUUID();
         try {
-            userService.disableUser(userId);
+            userService.disableUser(transactionId, userId);
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.", e);
         }
