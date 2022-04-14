@@ -1,4 +1,4 @@
-package de.danielkoellgen.srscsuserservice.integrationTests;
+package de.danielkoellgen.srscsuserservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

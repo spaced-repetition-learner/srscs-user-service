@@ -1,4 +1,4 @@
-package de.danielkoellgen.srscsuserservice.integrationTests.controller.user;
+package de.danielkoellgen.srscsuserservice.controller.user;
 
 import de.danielkoellgen.srscsuserservice.controller.user.UserController;
 import de.danielkoellgen.srscsuserservice.controller.user.dtos.NewUserRequestDto;

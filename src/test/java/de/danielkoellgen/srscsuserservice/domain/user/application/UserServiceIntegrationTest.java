@@ -1,4 +1,4 @@
-package de.danielkoellgen.srscsuserservice.integrationTests.domain.user.application;
+package de.danielkoellgen.srscsuserservice.domain.user.application;
 
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.MailAddress;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Name;
