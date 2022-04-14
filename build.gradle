@@ -53,3 +53,18 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jib {
+	to {
+		image = 'dadepu/srscs_user'
+		auth {
+			username = System.getenv('USER') ?: 'null'
+			password = System.getenv('PASS') ?: 'null'
+		}
+	}
+	container {
+		appRoot = '/userService'
+		ports = ['9001']
+		workingDirectory = '/userService'
+	}
+}
