@@ -17,7 +17,6 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:29092", "port=29092"})
 public class UserControllerIntegrationTest {
 
     private final WebTestClient webTestClient;

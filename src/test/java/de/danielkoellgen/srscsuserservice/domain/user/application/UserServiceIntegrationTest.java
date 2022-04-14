@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:29092", "port=29092"})
 public class UserServiceIntegrationTest {
 
     private final UserService userService;
