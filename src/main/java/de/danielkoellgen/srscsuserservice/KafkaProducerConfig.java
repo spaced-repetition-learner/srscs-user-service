@@ -1,8 +1,7 @@
 package de.danielkoellgen.srscsuserservice;
 
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +15,9 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    private final String bootstrapAddress;
+    @Value("${kafka.bootstrapAddress}")
+    private String bootstrapAddress;
 
-    @Autowired
-    public KafkaProducerConfig(@Value("${kafka.bootstrapAddress}") String bootstrapAddress) {
-        this.bootstrapAddress = bootstrapAddress;
-    }
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
