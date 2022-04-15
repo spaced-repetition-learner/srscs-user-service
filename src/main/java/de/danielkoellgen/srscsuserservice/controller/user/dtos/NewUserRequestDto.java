@@ -28,4 +28,15 @@ public class NewUserRequestDto {
         Name lastname = new Name(this.lastName);
         return new UserDto(null, username, mailAddress, firstname, lastname, null);
     }
+
+    @Override
+    public String toString() {
+        return "NewUserRequestDto{" +
+                "username='" + username + '\'' +
+                ", mailAddress='" + mailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

@@ -33,8 +33,10 @@ public class UserService {
     public @NotNull UserDto createNewUser(@NotNull UUID transactionId, @NotNull UserDto userDto) {
         User newUser = new User(userDto.username, userDto.mailAddress, userDto.firstName, userDto.lastName);
         userRepository.save(newUser);
-        logger.info("New user '{}' created. [userId={}]", newUser.getUsername().getUsername(), newUser.getUserId());
-        logger.trace("New user created: [{}]", newUser);
+        logger.info("User '{}' created. [tid={}, userId={}]",
+                transactionId, newUser.getUsername().getUsername(), newUser.getUserId());
+        logger.trace("User created: [tid={}, {}]",
+                transactionId, newUser);
         kafkaProducer.send(new UserCreated(transactionId, new UserCreatedDto(newUser)));
         return new UserDto(newUser);
     }
@@ -43,7 +45,8 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow();
         user.disableUser();
         userRepository.save(user);
-        logger.info("User '{}' disabled. [userId={}]", user.getUsername().getUsername(), user.getUserId());
+        logger.info("User '{}' disabled. [tid={}, userId={}]",
+                transactionId, user.getUsername().getUsername(), user.getUserId());
         kafkaProducer.send(new UserDisabled(transactionId, new UserDisabledDto(userId)));
         return new UserDto(user);
     }
