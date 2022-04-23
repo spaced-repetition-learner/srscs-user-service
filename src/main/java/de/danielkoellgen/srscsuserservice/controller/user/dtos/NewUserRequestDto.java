@@ -15,8 +15,6 @@ public class NewUserRequestDto {
 
     public String mailAddress;
 
-    public String password;
-
     public String firstName;
 
     public String lastName;
@@ -34,7 +32,6 @@ public class NewUserRequestDto {
         return "NewUserRequestDto{" +
                 "username='" + username + '\'' +
                 ", mailAddress='" + mailAddress + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 '}';
