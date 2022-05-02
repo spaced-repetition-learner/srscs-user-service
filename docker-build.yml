@@ -95,7 +95,7 @@ services:
 
   userservice:
     container_name: userservice
-    image: dadepu/srscs_user:0.1.15
+    image: dadepu/srscs_user:latest
     depends_on:
       - kafkabroker
       - mariadb
@@ -107,12 +107,32 @@ services:
       DB_USER: root
       DB_PASS: root
       KAFKA_BOOTSTRAP: kafkabroker:9092
-      SPRING_KAFKA_BOOTSTRAPSERVERS: kafkabroker:9092
     ports:
       - '9001:9001'
     networks:
       - kafka_net
       - mariadb_net
+
+  deckservice:
+    container_name: deckservice
+    image: dadepu/srscs_deck:latest
+    depends_on:
+      - kafkabroker
+      - mongo
+    restart: always
+    environment:
+      SERVICE_PORT: 9002
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_NAME: deck_service
+      DB_USER: root
+      DB_PASS: root
+      KAFKA_BOOTSTRAP: kafkabroker:9092
+    ports:
+      - '9002:9002'
+    networks:
+      - kafka_net
+      - mongo_net
 
 networks:
   kafka_net:

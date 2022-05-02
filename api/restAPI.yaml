@@ -143,7 +143,6 @@ components:
       required:
         - username
         - mailAddress
-        - password
         - firstName
         - lastName
       properties:
@@ -151,8 +150,6 @@ components:
           $ref: "#/components/schemas/username"
         mailAddress:
           $ref: "#/components/schemas/mail"
-        password:
-          $ref: "#/components/schemas/password"
         firstName:
           $ref: "#/components/schemas/name"
         lastName:

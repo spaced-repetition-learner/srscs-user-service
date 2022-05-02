@@ -36,7 +36,7 @@ public class LogController {
             return data;
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Path is: "+logPath);
         }
     }
 }
