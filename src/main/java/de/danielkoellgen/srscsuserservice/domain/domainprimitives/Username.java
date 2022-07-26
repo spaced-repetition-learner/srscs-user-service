@@ -1,11 +1,12 @@
 package de.danielkoellgen.srscsuserservice.domain.domainprimitives;
 
 import de.danielkoellgen.srscsuserservice.domain.core.AbstractStringValidation;
-import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+
+import javax.persistence.Embeddable;
 
 @Embeddable
 @EqualsAndHashCode(callSuper = false)

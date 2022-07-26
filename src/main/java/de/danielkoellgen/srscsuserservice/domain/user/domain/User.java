@@ -3,12 +3,12 @@ package de.danielkoellgen.srscsuserservice.domain.user.domain;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.MailAddress;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Name;
 import de.danielkoellgen.srscsuserservice.domain.domainprimitives.Username;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
