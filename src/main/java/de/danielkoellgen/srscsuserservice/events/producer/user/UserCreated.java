@@ -33,4 +33,12 @@ public class UserCreated extends AbstractProducerEvent {
             throw new RuntimeException("ObjectMapper conversion failed.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "UserCreated{" +
+                "payloadDto=" + payloadDto +
+                ", " + super.toString() +
+                '}';
+    }
 }

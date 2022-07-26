@@ -57,4 +57,15 @@ abstract public class AbstractProducerEvent implements ProducerEvent {
     public @NotNull EventDateTime getOccurredAt() {
         return occurredAt;
     }
+
+    @Override
+    public String toString() {
+        return "AbstractProducerEvent{" +
+                "eventId=" + eventId +
+                ", transactionId='" + transactionId + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", topic='" + topic + '\'' +
+                ", occurredAt=" + occurredAt.getFormatted() +
+                '}';
+    }
 }

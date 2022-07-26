@@ -67,17 +67,16 @@ public class User {
 
     public void disableUser() {
         isActive = false;
-        return true;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", username=" + username +
-                ", mailAddress=" + mailAddress +
-                ", firstName=" + firstName +
-                ", lastName=" + lastName +
+                ", username=" + username.getUsername() +
+                ", mailAddress=" + mailAddress.getMailAddress() +
+                ", firstName=" + firstName.getName() +
+                ", lastName=" + lastName.getName() +
                 ", isActive=" + isActive +
                 '}';
     }

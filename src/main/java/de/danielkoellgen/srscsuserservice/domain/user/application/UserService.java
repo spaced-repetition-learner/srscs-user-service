@@ -34,7 +34,9 @@ public class UserService {
         this.kafkaProducer = kafkaProducer;
     }
 
-    public @NotNull UserDto createNewUser(@NotNull UUID transactionId, @NotNull UserDto userDto) {
+    public @NotNull UserDto createNewUser(@NotNull UserDto userDto) {
+        log.trace("Creating new user '{}'...", userDto.username);
+
         User newUser = new User(userDto.username, userDto.mailAddress, userDto.firstName, userDto.lastName);
         userRepository.save(newUser);
         log.info("User '{}' created.", newUser.getUsername().getUsername());
@@ -44,8 +46,12 @@ public class UserService {
         return new UserDto(newUser);
     }
 
-    public @NotNull UserDto disableUser(@NotNull UUID transactionId, @NotNull UUID userId) {
+    public @NotNull UserDto disableUser(@NotNull UUID userId) {
+        log.trace("Disabling user...");
+
         User user = userRepository.findById(userId).orElseThrow();
+        log.debug("User fetched by user-id. {}", user);
+
         user.disableUser();
         userRepository.save(user);
         log.info("User '{}' disabled.", user.getUsername().getUsername());

@@ -33,4 +33,12 @@ public class UserDisabled extends AbstractProducerEvent {
             throw new RuntimeException("ObjectMapper conversion failed.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "UserDisabled{" +
+                "payloadDto=" + payloadDto +
+                ", " + super.toString() +
+                '}';
+    }
 }

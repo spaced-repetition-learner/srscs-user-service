@@ -31,4 +31,16 @@ public class UserDto {
         this.lastName = user.getLastName();
         this.isActive = user.getIsActive();
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "userId=" + userId +
+                ", username=" + username +
+                ", mailAddress=" + mailAddress +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
