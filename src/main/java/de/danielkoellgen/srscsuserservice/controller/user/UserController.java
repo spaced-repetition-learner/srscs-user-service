@@ -9,6 +9,7 @@ import de.danielkoellgen.srscsuserservice.domain.user.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/users", consumes = {"application/json"}, produces = {"application/json"})
-    public ResponseEntity<UserResponseDto> makeNewUser(@RequestBody NewUserRequestDto userRestRequestDto) {
-        UUID transactionId = UUID.randomUUID();
-        logger.trace("POST /users: Create User '{}'. [tid={}, payload={}]",
-                userRestRequestDto.username, transactionId, userRestRequestDto);
+    @NewSpan("controller-create-new-user")
+    public ResponseEntity<UserResponseDto> createNewUser(@RequestBody NewUserRequestDto userRestRequestDto) {
+        log.info("POST /users: Create new user '{}'...", userRestRequestDto.username);
+        log.debug("{}", userRestRequestDto);
         UserDto userRequestDto;
         try {
             userRequestDto = userRestRequestDto.mapToUserDto();
@@ -59,6 +60,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/users", produces = {"application/json"})
+    @NewSpan("controller-get-user")
     public ResponseEntity<UserResponseDto> getUser(
             @RequestParam(name = "user-id") Optional<UUID> userId,
             @RequestParam(name = "username") Optional<String> username,
@@ -93,6 +95,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/users/{user-id}")
+    @NewSpan("controller-disable-user")
     public ResponseEntity<HttpStatus> disableUser(@PathVariable(name = "user-id") UUID userId) {
         UUID transactionId = UUID.randomUUID();
         logger.trace("DELETE /users/{}: Disable User. [tid={}",
