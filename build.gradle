@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka:2.8.4'
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation 'com.lmax:disruptor:3.4.4'
-	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.3'
+	implementation 'mysql:mysql-connector-java:8.0.29'
 	implementation 'org.jetbrains:annotations:23.0.0'
 
 	compileOnly 'org.projectlombok:lombok'
