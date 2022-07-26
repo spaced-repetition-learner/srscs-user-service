@@ -1,6 +1,5 @@
 package de.danielkoellgen.srscsuserservice.controller.user;
 
-import de.danielkoellgen.srscsuserservice.controller.user.UserController;
 import de.danielkoellgen.srscsuserservice.controller.user.dtos.NewUserRequestDto;
 import de.danielkoellgen.srscsuserservice.controller.user.dtos.UserResponseDto;
 import de.danielkoellgen.srscsuserservice.domain.user.repository.UserRepository;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.UUID;
@@ -38,7 +36,7 @@ public class UserControllerIntegrationTest {
     public void shouldAllowToCreateNewUsers() {
         // given
         NewUserRequestDto requestDto = new NewUserRequestDto("dadepu", "dadepu@gmail.com",
-                "abc123", "Daniel", "Koellgen");
+                "Daniel", "Koellgen");
 
         // when
         UserResponseDto userCreatedDto = webTestClient.post().uri("/users")
@@ -70,7 +68,7 @@ public class UserControllerIntegrationTest {
         // given
         UserResponseDto testUserDto = postTestUser("dadepu", "dadepu@gmail.com");
         NewUserRequestDto userSameUsernameDto = new NewUserRequestDto("dadepu", "somemail@gmail.com",
-                "abc123","anyName", "anyName");
+                "anyName", "anyName");
 
         // when then
         webTestClient.post().uri("/users")
@@ -86,7 +84,7 @@ public class UserControllerIntegrationTest {
         // given
         UserResponseDto testUserDto = postTestUser("dadepu", "dadepu@gmail.com");
         NewUserRequestDto userSameMailDto = new NewUserRequestDto("anyOther", "dadepu@gmail.com",
-                "abc123","anyName", "anyName");
+                "anyName", "anyName");
 
         // when then
         webTestClient.post().uri("/users")
@@ -150,7 +148,7 @@ public class UserControllerIntegrationTest {
 
     private UserResponseDto postTestUser(String username, String mailAddress) {
         NewUserRequestDto requestDto = new NewUserRequestDto(username, mailAddress,
-                "abc123", "anyName", "anyName");
+                "anyName", "anyName");
 
         UserResponseDto userCreatedDto = webTestClient.post().uri("/users")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -17,7 +17,7 @@ public class UserCreated extends AbstractProducerEvent {
 
     public static final String eventTopic = "cdc.users.0";
 
-    public UserCreated(@NotNull UUID transactionId, @NotNull UserCreatedDto payloadDto) {
+    public UserCreated(@NotNull String transactionId, @NotNull UserCreatedDto payloadDto) {
         super(UUID.randomUUID(), transactionId, eventName, eventTopic,
                 EventDateTime.makeFromLocalDateTime(LocalDateTime.now())
         );

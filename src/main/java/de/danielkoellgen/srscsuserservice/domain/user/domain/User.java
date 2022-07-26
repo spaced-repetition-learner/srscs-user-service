@@ -65,7 +65,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Boolean disableUser() {
+    public void disableUser() {
         isActive = false;
         return true;
     }

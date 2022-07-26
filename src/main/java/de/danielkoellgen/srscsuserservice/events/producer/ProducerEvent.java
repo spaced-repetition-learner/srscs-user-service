@@ -11,7 +11,7 @@ public interface ProducerEvent {
 
     @NotNull String getEventName();
 
-    @NotNull UUID getTransactionId();
+    @NotNull String getTransactionId();
 
     @NotNull EventDateTime getOccurredAt();
 

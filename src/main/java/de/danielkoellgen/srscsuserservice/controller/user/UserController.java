@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, UserRepository userRepository) {
@@ -47,7 +47,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RequestBody arguments invalid", e);
         }
         try {
-            UserDto userResponseDto = userService.createNewUser(transactionId, userRequestDto);
+            UserDto userResponseDto = userService.createNewUser(userRequestDto);
             UserResponseDto userRestResponseDto = new UserResponseDto(userResponseDto);
             logger.trace("User created. Responding 201. [tid={}, payload={}]",
                     transactionId, userRestResponseDto);
@@ -101,7 +101,7 @@ public class UserController {
         logger.trace("DELETE /users/{}: Disable User. [tid={}",
                 userId, transactionId);
         try {
-            userService.disableUser(transactionId, userId);
+            userService.disableUser(userId);
         } catch (NoSuchElementException e) {
             logger.trace("User not found. Responding 404. [tid={}, userId={}]",
                     transactionId, userId);
