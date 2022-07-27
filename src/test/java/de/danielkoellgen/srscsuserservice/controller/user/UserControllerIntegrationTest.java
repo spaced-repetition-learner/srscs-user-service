@@ -35,8 +35,8 @@ public class UserControllerIntegrationTest {
     @Test
     public void shouldAllowToCreateNewUsers() {
         // given
-        NewUserRequestDto requestDto = new NewUserRequestDto("dadepu", "dadepu@gmail.com",
-                "Daniel", "Koellgen");
+        NewUserRequestDto requestDto = new NewUserRequestDto("dadepu",
+                "dadepu@gmail.com", "Daniel", "Koellgen");
 
         // when
         UserResponseDto userCreatedDto = webTestClient.post().uri("/users")
@@ -67,8 +67,8 @@ public class UserControllerIntegrationTest {
     public void shouldNotAllowNewUsersWhenUsernameAlreadyExists() {
         // given
         UserResponseDto testUserDto = postTestUser("dadepu", "dadepu@gmail.com");
-        NewUserRequestDto userSameUsernameDto = new NewUserRequestDto("dadepu", "somemail@gmail.com",
-                "anyName", "anyName");
+        NewUserRequestDto userSameUsernameDto = new NewUserRequestDto("dadepu",
+                "somemail@gmail.com", "anyName", "anyName");
 
         // when then
         webTestClient.post().uri("/users")
@@ -83,8 +83,8 @@ public class UserControllerIntegrationTest {
     public void shouldNotAllowNewUsersWhenMailAddressAlreadyExists() {
         // given
         UserResponseDto testUserDto = postTestUser("dadepu", "dadepu@gmail.com");
-        NewUserRequestDto userSameMailDto = new NewUserRequestDto("anyOther", "dadepu@gmail.com",
-                "anyName", "anyName");
+        NewUserRequestDto userSameMailDto = new NewUserRequestDto("anyOther",
+                "dadepu@gmail.com", "anyName", "anyName");
 
         // when then
         webTestClient.post().uri("/users")
@@ -101,7 +101,8 @@ public class UserControllerIntegrationTest {
         UserResponseDto testUserDto = postTestUser("dadepu", "dadepu@gmail.com");
 
         // when
-        UserResponseDto fetchedUserUsername = webTestClient.get().uri("/users?username="+testUserDto.username)
+        String uriName = "/users?username="+testUserDto.username;
+        UserResponseDto fetchedUserUsername = webTestClient.get().uri(uriName)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectBody(UserResponseDto.class)
@@ -109,7 +110,8 @@ public class UserControllerIntegrationTest {
                 .getResponseBody();
 
         // and when
-        UserResponseDto fetchedUserMail = webTestClient.get().uri("/users?mail-address="+testUserDto.mailAddress)
+        String uriMail = "/users?mail-address="+testUserDto.mailAddress;
+        UserResponseDto fetchedUserMail = webTestClient.get().uri(uriMail)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectBody(UserResponseDto.class)
@@ -130,12 +132,14 @@ public class UserControllerIntegrationTest {
         UUID userId = testUserDto.userId;
 
         // when
-        webTestClient.delete().uri("/users/"+userId)
+        String uriDelete = "/users/"+userId;
+        webTestClient.delete().uri(uriDelete)
                 .exchange()
                 .expectStatus().isOk();
 
         // then
-        UserResponseDto fetchedUser = webTestClient.get().uri("/users?user-id="+userId)
+        String uriFetch = "/users?user-id="+userId;
+        UserResponseDto fetchedUser = webTestClient.get().uri(uriFetch)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectBody(UserResponseDto.class)

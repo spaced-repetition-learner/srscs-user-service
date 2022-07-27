@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<User, UUID> {
 
-    Optional<User> findUserByUsername_Username(@NotNull String username);
+  Optional<User> findUserByUsername_Username(@NotNull String username);
 
-    Optional<User> findUserByMailAddress_MailAddress(@NotNull String mailAddress);
+  Optional<User> findUserByMailAddress_MailAddress(@NotNull String mailAddress);
 }

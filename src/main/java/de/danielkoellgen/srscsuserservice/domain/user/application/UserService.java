@@ -37,7 +37,8 @@ public class UserService {
     public @NotNull UserDto createNewUser(@NotNull UserDto userDto) {
         log.trace("Creating new user '{}'...", userDto.username);
 
-        User newUser = new User(userDto.username, userDto.mailAddress, userDto.firstName, userDto.lastName);
+        User newUser = new User(userDto.username, userDto.mailAddress, userDto.firstName,
+                userDto.lastName);
         userRepository.save(newUser);
         log.info("User '{}' created.", newUser.getUsername().getUsername());
         log.debug("{}", newUser);

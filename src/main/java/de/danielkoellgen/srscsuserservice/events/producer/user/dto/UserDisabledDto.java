@@ -7,6 +7,5 @@ import java.util.UUID;
 public record UserDisabledDto(
 
     @NotNull UUID userId
-
 ) {
 }

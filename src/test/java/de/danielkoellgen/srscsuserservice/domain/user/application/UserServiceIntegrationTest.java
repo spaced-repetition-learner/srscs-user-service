@@ -27,12 +27,14 @@ public class UserServiceIntegrationTest {
     private final UserDto testUser1;
 
     @Autowired
-    public UserServiceIntegrationTest(UserService userService, UserRepository userRepository) throws Exception {
+    public UserServiceIntegrationTest(UserService userService, UserRepository userRepository)
+            throws Exception {
         this.userService = userService;
         this.userRepository = userRepository;
 
-        this.testUser1 = new UserDto(null, new Username("dadepu"), new MailAddress("danielkoellgen@gmail.com"),
-                new Name("Daniel"), new Name("Koellgen"), null);
+        this.testUser1 = new UserDto(null, new Username("dadepu"),
+                new MailAddress("danielkoellgen@gmail.com"), new Name("Daniel"),
+                new Name("Koellgen"), null);
     }
 
     @AfterEach
@@ -68,7 +70,8 @@ public class UserServiceIntegrationTest {
         UserDto responseDto = userService.createNewUser(testUser1);
 
         // when
-        User fetchedUser = userRepository.findUserByUsername_Username(testUser1.username.getUsername()).orElseThrow();
+        User fetchedUser = userRepository.findUserByUsername_Username(
+                testUser1.username.getUsername()).orElseThrow();
 
         // then
         assertThat(fetchedUser.getUserId())
@@ -81,8 +84,8 @@ public class UserServiceIntegrationTest {
         UserDto responseDto = userService.createNewUser(testUser1);
 
         // when
-        User fetchedUser = userRepository.findUserByMailAddress_MailAddress(testUser1.mailAddress.getMailAddress())
-                .orElseThrow();
+        User fetchedUser = userRepository.findUserByMailAddress_MailAddress(
+                testUser1.mailAddress.getMailAddress()).orElseThrow();
 
         // then
         assertThat(fetchedUser.getUserId())
@@ -113,7 +116,8 @@ public class UserServiceIntegrationTest {
         userService.createNewUser(testUser1);
 
         UserDto testUser2 = new UserDto(null, new Username("dadepu"),
-                new MailAddress("anyotheraddress@gmail.com"), new Name("Daniel2"), new Name("Koellgen2"), null);
+                new MailAddress("anyotheraddress@gmail.com"), new Name("Daniel2"),
+                new Name("Koellgen2"), null);
 
         // when then
         assertThrows(Exception.class, () -> {
@@ -127,7 +131,8 @@ public class UserServiceIntegrationTest {
         userService.createNewUser(testUser1);
 
         UserDto testUser2 = new UserDto(null, new Username("anyOtherName"),
-                new MailAddress("danielkoellgen@gmail.com"), new Name("Daniel2"), new Name("Koellgen2"), null);
+                new MailAddress("danielkoellgen@gmail.com"), new Name("Daniel2"),
+                new Name("Koellgen2"), null);
 
         // when then
         assertThrows(Exception.class, () -> {
