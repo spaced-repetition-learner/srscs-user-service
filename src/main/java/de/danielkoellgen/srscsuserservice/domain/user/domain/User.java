@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -56,6 +58,9 @@ public class User {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
+    @Transient
+    private final Logger log = LoggerFactory.getLogger(User.class);
+
 
     public User (@NotNull Username username, @NotNull MailAddress mailAddress,
                  @NotNull Name firstName, @NotNull Name lastName) {
@@ -67,6 +72,7 @@ public class User {
 
     public void disableUser() {
         isActive = false;
+        log.debug("User.isActive has been set to {}.", isActive);
     }
 
     @Override

@@ -36,23 +36,25 @@ public class UserController {
     @PostMapping(value = "/users", consumes = {"application/json"}, produces = {"application/json"})
     @NewSpan("controller-create-new-user")
     public ResponseEntity<UserResponseDto> createNewUser(@RequestBody NewUserRequestDto userRestRequestDto) {
-        log.info("POST /users: Create new user '{}'... {}", userRestRequestDto.username,
+        log.info("POST /users: Create new User '{}'... {}", userRestRequestDto.username,
                 userRestRequestDto);
         UserDto userRequestDto;
         try {
             userRequestDto = userRestRequestDto.mapToUserDto();
+
         } catch (Exception e) {
-            log.trace("Request failed with 400.");
+            log.info("Request failed w/ 400. Request-Body arguments invalid.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "RequestBody arguments invalid", e);
         }
         try {
             UserDto userResponseDto = userService.createNewUser(userRequestDto);
             UserResponseDto userRestResponseDto = new UserResponseDto(userResponseDto);
-            log.trace("Responding 201.");
-            log.debug("{}", userRestResponseDto);
+            log.info("Request successful. Responding w/ 201.");
+            log.debug("Response: {}", userRestResponseDto);
             return new ResponseEntity<>(userRestResponseDto, HttpStatus.CREATED);
+
         } catch (Exception e) {
-            log.trace("Responding 403. {}", e.getMessage());
+            log.info("Request failed w/ 403. {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unknown", e);
         }
     }
@@ -64,31 +66,37 @@ public class UserController {
             @RequestParam(name = "username") Optional<String> username,
             @RequestParam(name = "mail-address") Optional<String> mailAddress) {
 
-        log.info("GET /users: Fetch user by userId={}, username={}, mailAddress={}...", userId,
+        log.info("GET /users: Fetch user... [userId={}, username={}, mailAddress={}]", userId,
                 username, mailAddress);
         User fetchedUser = null;
         try {
             if (userId.isPresent()) {
+                log.trace("Fetching User by id '{}'...", userId.get());
                 fetchedUser = userRepository.findById(userId.get()).orElseThrow();
+                log.debug("Fetched User by id: {}", fetchedUser);
             }
             if (username.isPresent()) {
+                log.trace("Fetching User by username '{}'...", username.get());
                 fetchedUser = userRepository.findUserByUsername_Username(username.get()).orElseThrow();
+                log.debug("Fetched User by username: {}", fetchedUser);
             }
             if (mailAddress.isPresent()) {
+                log.trace("Fetching User by mailAddress '{}'...", mailAddress.get());
                 fetchedUser = userRepository.findUserByMailAddress_MailAddress(mailAddress.get()).orElseThrow();
+                log.debug("Fetched User by mailAddress: {}", fetchedUser);
             }
         } catch (NoSuchElementException e) {
-            log.trace("Responding 404. {}", e.getMessage());
+            log.info("Request failed w/ 404. {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.", e);
         }
         if (fetchedUser == null) {
-            log.trace("Responding 400. Filter missing.");
+            log.info("Request failed /w 400. Filter is missing.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing query-parameter");
         }
         {
             UserResponseDto userRestResponseDto = new UserResponseDto(fetchedUser);
-            log.trace("Responding 201.");
-            log.debug("{}", userRestResponseDto);
+            log.info("Request successful. Responding w/ 201.");
+            log.debug("Response: {}", userRestResponseDto);
             return new ResponseEntity<>(userRestResponseDto, HttpStatus.OK);
         }
     }
@@ -96,17 +104,16 @@ public class UserController {
     @DeleteMapping(value = "/users/{user-id}")
     @NewSpan("controller-disable-user")
     public ResponseEntity<HttpStatus> disableUser(@PathVariable(name = "user-id") UUID userId) {
-        log.info("DELETE /users/{}: Disable user...", userId);
+        log.info("DELETE /users/{}: Disable User...", userId);
 
         try {
             userService.disableUser(userId);
-        } catch (NoSuchElementException e) {
-            log.trace("Responding 404. User not found.");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.", e);
-        }
-        {
-            log.trace("Responding 200.");
+            log.info("Request successful. Responding w/ 200.");
             return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (NoSuchElementException e) {
+            log.info("Request failed w/ 404. User not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.", e);
         }
     }
 }

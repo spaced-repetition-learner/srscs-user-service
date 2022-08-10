@@ -35,28 +35,29 @@ public class UserService {
     }
 
     public @NotNull UserDto createNewUser(@NotNull UserDto userDto) {
-        log.trace("Creating new user '{}'...", userDto.username);
+        log.trace("Creating new User '{}'...", userDto.username);
 
         User newUser = new User(userDto.username, userDto.mailAddress, userDto.firstName,
                 userDto.lastName);
         userRepository.save(newUser);
-        log.info("User '{}' created.", newUser.getUsername().getUsername());
-        log.debug("{}", newUser);
+        log.info("User successfully '{}' created.", newUser.getUsername().getUsername());
+        log.debug("New User: {}", newUser);
 
         kafkaProducer.send(new UserCreated(getTraceIdOrEmptyString(), new UserCreatedDto(newUser)));
         return new UserDto(newUser);
     }
 
     public @NotNull UserDto disableUser(@NotNull UUID userId) {
-        log.trace("Disabling user...");
+        log.trace("Disabling User '{}'...", userId);
 
+        log.trace("Fetching User by user-id '{}'.", userId);
         User user = userRepository.findById(userId).orElseThrow();
-        log.debug("User fetched by user-id. {}", user);
+        log.debug("Fetched User: {}", user);
 
         user.disableUser();
         userRepository.save(user);
-        log.info("User '{}' disabled.", user.getUsername().getUsername());
-        log.debug("{}", user);
+        log.info("User successfully '{}' disabled.", user.getUsername().getUsername());
+        log.debug("Disabled User: {}", user);
 
         kafkaProducer.send(new UserDisabled(getTraceIdOrEmptyString(), new UserDisabledDto(userId)));
         return new UserDto(user);
