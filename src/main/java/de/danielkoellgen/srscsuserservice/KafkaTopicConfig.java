@@ -25,6 +25,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic sub_cdc_users_0() {
-        return new NewTopic("cdc.users.0", 1, (short) 1);
+        return new NewTopic("cdc.users.0", 1, (short) 2);
     }
 }
